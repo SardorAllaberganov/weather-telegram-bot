@@ -120,8 +120,12 @@ const start = () => {
 								} % \n👁️Видимость: ${data.visibility} m `
 							);
 						})
-						.catch((err) => {
-							console.log(err);
+						.catch((error) => {
+							console.error(
+								"Error fetching weather:",
+								error.message
+							);
+							throw error;
 						})
 				);
 			});
@@ -149,6 +153,10 @@ const start = () => {
 						`,
 							{ parse_mode: "Markdown" }
 						);
+					})
+					.catch((error) => {
+						console.error("Error fetching weather:", error.message);
+						throw error;
 					});
 			});
 		}
