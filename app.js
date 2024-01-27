@@ -71,7 +71,7 @@ app.get("/", (req, res) => {
 	res.send("Telegram Bot is running!");
 });
 
-app.post("/webhook", (req, res) => {
+app.get("/webhook", (req, res) => {
 	const { body } = req;
 	bot.processUpdate(body);
 	res.sendStatus(200);
