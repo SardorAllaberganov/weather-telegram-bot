@@ -73,6 +73,7 @@ app.get("/", (req, res) => {
 
 app.post("/webhook", (req, res) => {
 	const { body } = req;
+	console.log(body);
 	bot.processUpdate(body);
 	res.sendStatus(200);
 });
