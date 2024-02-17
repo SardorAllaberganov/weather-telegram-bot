@@ -213,12 +213,10 @@ const start = () => {
 			});
 		}
 		if (text === "Получите IQ AIR") {
-			if (!coords) {
-				return bot.sendMessage(
-					chatId,
-					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
-				);
-			}
+			bot.sendMessage(
+				chatId,
+				"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
+			);
 			bot.once("location", async (location) => {
 				try {
 					const response1 = await fetch(
