@@ -139,7 +139,7 @@ const start = () => {
 		if (text === "Получите IQ AIR") {
 			bot.sendMessage(
 				chatId,
-				"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
+				"Отправьте мне текущее местоположение. Отправив местоположение, вы сможете точно увидеть результат"
 			);
 			const showAirPollution = (data) => {
 				`
@@ -148,31 +148,31 @@ const start = () => {
 				)} \n📊 PM2.5: ${data.data.iaqi.pm25.v} мкг/м3
 			`;
 			};
-			bot.once("message", async (msg) => {
-				cityName = msg.text;
-				try {
-					const response = await fetch(
-						`https://api.waqi.info/feed/${cityName}/?token=${iq_air_token}`
-					);
-					const data = await response.json();
-					if (!data) {
-						return bot.sendMessage(
-							chatId,
-							"Ошибка при получении данных"
-						);
-					}
-					console.log(data);
-					return bot.sendMessage(chatId, showAirPollution(data), {
-						parse_mode: "Markdown",
-					});
-				} catch (error) {
-					console.error("Error fetching weather:", error.message);
-					return bot.sendMessage(
-						chatId,
-						"Ошибка при получении данных"
-					);
-				}
-			});
+			// bot.once("message", async (msg) => {
+			// 	cityName = msg.text;
+			// 	try {
+			// 		const response = await fetch(
+			// 			`https://api.waqi.info/feed/${cityName}/?token=${iq_air_token}`
+			// 		);
+			// 		const data = await response.json();
+			// 		if (!data) {
+			// 			return bot.sendMessage(
+			// 				chatId,
+			// 				"Ошибка при получении данных"
+			// 			);
+			// 		}
+			// 		console.log(data);
+			// 		return bot.sendMessage(chatId, showAirPollution(data), {
+			// 			parse_mode: "Markdown",
+			// 		});
+			// 	} catch (error) {
+			// 		console.error("Error fetching weather:", error.message);
+			// 		return bot.sendMessage(
+			// 			chatId,
+			// 			"Ошибка при получении данных"
+			// 		);
+			// 	}
+			// });
 			bot.once("location", async (location) => {
 				try {
 					const response = await fetch(
