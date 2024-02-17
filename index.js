@@ -166,7 +166,7 @@ const start = () => {
 
 start();
 
-bot.setWebHook(`https://weather-tg-bot.vercel.app/webhook`);
+bot.setWebHook(`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/webhook`);
 
 app.listen(port, () => {
 	console.log(`Telegram bot server is running on port ${port}`);
