@@ -161,6 +161,7 @@ const start = () => {
 							"Ошибка при получении данных"
 						);
 					}
+					console.log(data);
 					return bot.sendMessage(chatId, showAirPollution(data), {
 						parse_mode: "Markdown",
 					});
