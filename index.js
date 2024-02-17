@@ -110,24 +110,22 @@ const start = () => {
 								"Ошибка при получении данных"
 							);
 						}
-						if (data.weather[0]) {
-							bot.sendMessage(
-								chatId,
-								`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
-									data.weather[0].description
-								}\n🌄 Иконка: ${
-									icons[data.weather[0].main.toLowerCase()]
-								}\n🌡️ Температура: ${
-									data.main.temp
-								}°C\n🤒 Ощущается как: ${
-									data.main.feels_like
-								}°C\n⏱ Давления: ${
-									data.main.pressure
-								} hPa \n🫧 Влажность: ${
-									data.main.humidity
-								} % \n👁️Видимость: ${data.visibility} m `
-							);
-						}
+						bot.sendMessage(
+							chatId,
+							`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
+								data.weather[0].description
+							}\n🌄 Иконка: ${
+								icons[data.weather[0].main.toLowerCase()]
+							}\n🌡️ Температура: ${
+								data.main.temp
+							}°C\n🤒 Ощущается как: ${
+								data.main.feels_like
+							}°C\n⏱ Давления: ${
+								data.main.pressure
+							} hPa \n🫧 Влажность: ${
+								data.main.humidity
+							} % \n👁️Видимость: ${data.visibility} m `
+						);
 					})
 					.catch((error) => {
 						console.error("Error fetching weather:", error.message);
@@ -136,11 +134,15 @@ const start = () => {
 			});
 		}
 		if (text === "Получите IQ AIR") {
+			console.log(data);
 			if (!coords) {
 				bot.sendMessage(
 					chatId,
 					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 				);
+			}
+			if (!data) {
+				bot.sendMessage(chatId, "Ошибка при получении данных");
 			}
 			bot.on("location", async (location) => {
 				await fetch(
@@ -149,12 +151,6 @@ const start = () => {
 				)
 					.then((response) => response.json())
 					.then((data) => {
-						if (!data) {
-							bot.sendMessage(
-								chatId,
-								"Ошибка при получении данных"
-							);
-						}
 						bot.sendMessage(
 							chatId,
 							`
