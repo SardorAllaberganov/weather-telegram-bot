@@ -139,7 +139,7 @@ const start = () => {
 					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 				);
 			}
-			if (data.weather[0].description === undefined) {
+			if (!data) {
 				bot.on("location", async (location) => {
 					await fetch(
 						`https://api.waqi.info/feed/geo:${location.location.latitude};
