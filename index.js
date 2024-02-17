@@ -139,28 +139,39 @@ const start = () => {
 					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 				);
 			}
-			bot.on("location", async (location) => {
-				await fetch(
-					`https://api.waqi.info/feed/geo:${location.location.latitude};
+			if (data.weather[0].description === undefined) {
+				bot.on("location", async (location) => {
+					await fetch(
+						`https://api.waqi.info/feed/geo:${location.location.latitude};
 						${location.location.longitude}/?token=${iq_air_token}`
-				)
-					.then((response) => response.json())
-					.then((data) => {
-						bot.sendMessage(
-							chatId,
-							`
+					)
+						.then((response) => response.json())
+						.then((data) => {
+							if (!data) {
+								bot.sendMessage(
+									chatId,
+									"Ошибка при получении данных"
+								);
+							}
+							bot.sendMessage(
+								chatId,
+								`
 						    🌬️ Air IQ:  ${data.data.aqi}\n📈 Статус: ${air_pollution_level(
-								data.data.aqi
-							)} \n📊 PM2.5: ${data.data.iaqi.pm25.v} мкг/м3
+									data.data.aqi
+								)} \n📊 PM2.5: ${data.data.iaqi.pm25.v} мкг/м3
 						`,
-							{ parse_mode: "Markdown" }
-						);
-					})
-					.catch((error) => {
-						console.error("Error fetching weather:", error.message);
-						throw error;
-					});
-			});
+								{ parse_mode: "Markdown" }
+							);
+						})
+						.catch((error) => {
+							console.error(
+								"Error fetching weather:",
+								error.message
+							);
+							throw error;
+						});
+				});
+			}
 		}
 	});
 };
