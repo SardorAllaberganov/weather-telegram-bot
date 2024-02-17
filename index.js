@@ -140,7 +140,7 @@ const start = () => {
 					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 				);
 			}
-			bot.once("location", async (location) => {
+			bot.on("location", async (location) => {
 				return await fetch(
 					`https://api.waqi.info/feed/geo:${location.location.latitude};
 					${location.location.longitude}/?token=${iq_air_token}`
