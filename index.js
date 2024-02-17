@@ -93,82 +93,6 @@ const start = () => {
 		if (text === "/start") {
 			await bot.sendMessage(chatId, "Добро пожаловать в бот!!!", options);
 		}
-		// if (text === "Текущая погода") {
-		// 	bot.sendMessage(chatId, "Напишите город:");
-		// 	bot.once("message", async (msg) => {
-		// 		cityName = msg.text;
-		// 		return await fetch(
-		// 			`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
-		// 			{ method: "GET" }
-		// 		)
-		// 			.then((response) => response.json())
-		// 			.then((data) => {
-		// 				coords = data.coord;
-		// 				if (!data) {
-		// 					return bot.sendMessage(
-		// 						chatId,
-		// 						"Ошибка при получении данных"
-		// 					);
-		// 				}
-		// 				return bot.sendMessage(
-		// 					chatId,
-		// 					`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
-		// 						data?.weather[0]?.description
-		// 					}\n🌄 Иконка: ${
-		// 						icons[data?.weather[0]?.main.toLowerCase()]
-		// 					}\n🌡️ Температура: ${
-		// 						data.main.temp
-		// 					}°C\n🤒 Ощущается как: ${
-		// 						data.main.feels_like
-		// 					}°C\n⏱ Давления: ${
-		// 						data.main.pressure
-		// 					} hPa \n🫧 Влажность: ${
-		// 						data.main.humidity
-		// 					} % \n👁️Видимость: ${data.visibility} m `
-		// 				);
-		// 			})
-		// 			.catch((error) => {
-		// 				console.error("Error fetching weather:", error.message);
-		// 				throw error;
-		// 			});
-		// 	});
-		// }
-		// if (text === "Получите IQ AIR") {
-		// 	if (!coords) {
-		// 		return bot.sendMessage(
-		// 			chatId,
-		// 			"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
-		// 		);
-		// 	}
-		// 	bot.on("location", async (location) => {
-		// 		return await fetch(
-		// 			`https://api.waqi.info/feed/geo:${location.location.latitude};
-		// 			${location.location.longitude}/?token=${iq_air_token}`
-		// 		)
-		// 			.then((response1) => response1.json())
-		// 			.then((data1) => {
-		// 				if (!data1) {
-		// 					return bot.sendMessage(
-		// 						chatId,
-		// 						"Ошибка при получении данных"
-		// 					);
-		// 				}
-		// 				return bot.sendMessage(
-		// 					chatId,
-		// 					`
-		// 				    🌬️ Air IQ:  ${data1.data.aqi}\n📈 Статус: ${air_pollution_level(
-		// 						data1.data.aqi
-		// 					)} \n📊 PM2.5: ${data1.data.iaqi.pm25.v} мкг/м3
-		// 				`,
-		// 					{ parse_mode: "Markdown" }
-		// 				);
-		// 			})
-		// 			.catch((error) => {
-		// 				console.error("Error fetching weather:", error.message);
-		// 				throw error;
-		// 			});
-		// 	});
-		// }
 		if (text === "Текущая погода") {
 			bot.sendMessage(chatId, "Напишите город:").then(() => {
 				bot.once("message", async (msg) => {
@@ -217,28 +141,53 @@ const start = () => {
 				chatId,
 				"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 			);
-			bot.once("location", async (location) => {
+			const showAirPollution = (data) => {
+				`
+				🌬️ Air IQ:  ${data.data.aqi}\n📈 Статус: ${air_pollution_level(
+					data.data.aqi
+				)} \n📊 PM2.5: ${data.data.iaqi.pm25.v} мкг/м3
+			`;
+			};
+			bot.once("message", async (msg) => {
+				cityName = msg.text;
 				try {
-					const response1 = await fetch(
-						`https://api.waqi.info/feed/geo:${location.location.latitude};
-						${location.location.longitude}/?token=${iq_air_token}`
+					const response = await fetch(
+						`https://api.waqi.info/feed/${cityName}/?token=${iq_air_token}`
 					);
-					const data1 = await response1.json();
-					if (!data1) {
+					const data = await response.json();
+					if (!data) {
 						return bot.sendMessage(
 							chatId,
 							"Ошибка при получении данных"
 						);
 					}
+					return bot.sendMessage(chatId, showAirPollution(data), {
+						parse_mode: "Markdown",
+					});
+				} catch (error) {
+					console.error("Error fetching weather:", error.message);
 					return bot.sendMessage(
 						chatId,
-						`
-							🌬️ Air IQ:  ${data1.data.aqi}\n📈 Статус: ${air_pollution_level(
-							data1.data.aqi
-						)} \n📊 PM2.5: ${data1.data.iaqi.pm25.v} мкг/м3
-						`,
-						{ parse_mode: "Markdown" }
+						"Ошибка при получении данных"
 					);
+				}
+			});
+			bot.once("location", async (location) => {
+				try {
+					const response = await fetch(
+						`https://api.waqi.info/feed/geo:${location.location.latitude};
+						${location.location.longitude}/?token=${iq_air_token}`
+					);
+					const data = await response.json();
+					if (!data) {
+						return bot.sendMessage(
+							chatId,
+							"Ошибка при получении данных"
+						);
+					}
+					return bot.sendMessage(chatId, showAirPollution(data), {
+						parse_mode: "Markdown",
+					});
 				} catch (error) {
 					console.error("Error fetching weather:", error.message);
 					return bot.sendMessage(
