@@ -79,6 +79,14 @@ app.post(`/${tg_token}`, (req, res) => {
 	res.status(200).json({ message: "ok" });
 });
 
+const getWeather = async () => {
+	const response = await fetch(
+		`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
+		{ method: "GET" }
+	);
+	return response.json();
+};
+
 const start = () => {
 	bot.setMyCommands([
 		{ command: "/start", description: "Запусти бота" },
@@ -97,11 +105,7 @@ const start = () => {
 			bot.sendMessage(chatId, "Напишите город:");
 			bot.on("message", async (msg) => {
 				cityName = msg.text;
-				await fetch(
-					`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
-					{ method: "GET" }
-				)
-					.then((response) => response.json())
+				getWeather()
 					.then((data) => {
 						coords = data.coord;
 						if (!data) {
@@ -110,7 +114,7 @@ const start = () => {
 								"Ошибка при получении данных"
 							);
 						}
-						bot.sendMessage(
+						return bot.sendMessage(
 							chatId,
 							`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
 								data.weather[0].description
@@ -153,7 +157,7 @@ const start = () => {
 								"Ошибка при получении данных"
 							);
 						}
-						bot.sendMessage(
+						return bot.sendMessage(
 							chatId,
 							`
 						    🌬️ Air IQ:  ${data1.data.aqi}\n📈 Статус: ${air_pollution_level(
