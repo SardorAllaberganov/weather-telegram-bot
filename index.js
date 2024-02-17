@@ -94,7 +94,7 @@ const start = () => {
 			await bot.sendMessage(chatId, "Добро пожаловать в бот!!!", options);
 		}
 		if (text === "Текущая погода") {
-			bot.sendMessage(chatId, "Напишите город:").then(() => {
+			bot.sendMessage(chatId, "Напишите название города:").then(() => {
 				bot.once("message", async (msg) => {
 					cityName = msg.text;
 					try {
@@ -139,7 +139,7 @@ const start = () => {
 		if (text === "Получите IQ AIR") {
 			bot.sendMessage(
 				chatId,
-				"Отправьте мне текущее местоположение. Отправив местоположение, вы сможете точно увидеть результат"
+				"Отправьте мне ваше текущее местоположение чтобы узнать качество воздуха. Отправив местоположение, вы сможете точно увидеть результат"
 			);
 
 			// bot.once("message", async (msg) => {
