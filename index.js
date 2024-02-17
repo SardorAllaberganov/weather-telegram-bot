@@ -71,12 +71,12 @@ app.get("/", (req, res) => {
 	res.send("Telegram Bot is running!");
 });
 
-app.post("/webhook", (req, res) => {
-	const { body } = req;
-	console.log(body);
-	bot.processUpdate(body);
-	res.sendStatus(200);
-});
+// app.post("/webhook", (req, res) => {
+// 	const { body } = req;
+// 	console.log(body);
+// 	bot.processUpdate(body);
+// 	res.sendStatus(200);
+// });
 
 const start = () => {
 	bot.setMyCommands([
