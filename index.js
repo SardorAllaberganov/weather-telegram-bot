@@ -110,22 +110,24 @@ const start = () => {
 								"Ошибка при получении данных"
 							);
 						}
-						bot.sendMessage(
-							chatId,
-							`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
-								data.weather[0].description
-							}\n🌄 Иконка: ${
-								icons[data.weather[0].main.toLowerCase()]
-							}\n🌡️ Температура: ${
-								data.main.temp
-							}°C\n🤒 Ощущается как: ${
-								data.main.feels_like
-							}°C\n⏱ Давления: ${
-								data.main.pressure
-							} hPa \n🫧 Влажность: ${
-								data.main.humidity
-							} % \n👁️Видимость: ${data.visibility} m `
-						);
+						if (data.weather[0]) {
+							bot.sendMessage(
+								chatId,
+								`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
+									data.weather[0].description
+								}\n🌄 Иконка: ${
+									icons[data.weather[0].main.toLowerCase()]
+								}\n🌡️ Температура: ${
+									data.main.temp
+								}°C\n🤒 Ощущается как: ${
+									data.main.feels_like
+								}°C\n⏱ Давления: ${
+									data.main.pressure
+								} hPa \n🫧 Влажность: ${
+									data.main.humidity
+								} % \n👁️Видимость: ${data.visibility} m `
+							);
+						}
 					})
 					.catch((error) => {
 						console.error("Error fetching weather:", error.message);
