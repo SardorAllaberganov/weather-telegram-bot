@@ -69,14 +69,15 @@ const air_pollution_level = (aqi) => {
 
 app.get("/", (req, res) => {
 	res.send("Telegram Bot is running!");
+	res.status(200).json({ message: "Telegram Bot is running!" });
 });
 
-// app.post("/webhook", (req, res) => {
-// 	const { body } = req;
-// 	console.log(body);
-// 	bot.processUpdate(body);
-// 	res.sendStatus(200);
-// });
+app.post(`/${tg_token}`, (req, res) => {
+	const { body } = req;
+	console.log(body);
+	bot.processUpdate(body);
+	res.status(200).json({ message: "ok" });
+});
 
 const start = () => {
 	bot.setMyCommands([
@@ -163,10 +164,11 @@ const start = () => {
 		}
 	});
 };
+bot.setWebHook(
+	`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/${tg_token}`
+);
 
 start();
-
-bot.setWebHook(`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/webhook`);
 
 app.listen(port, () => {
 	console.log(`Telegram bot server is running on port ${port}`);
