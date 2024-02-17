@@ -79,14 +79,6 @@ app.post(`/${tg_token}`, (req, res) => {
 	res.status(200).json({ message: "ok" });
 });
 
-const getWeather = async () => {
-	const response = await fetch(
-		`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
-		{ method: "GET" }
-	);
-	return response.json();
-};
-
 const start = () => {
 	bot.setMyCommands([
 		{ command: "/start", description: "Запусти бота" },
@@ -105,11 +97,15 @@ const start = () => {
 			bot.sendMessage(chatId, "Напишите город:");
 			bot.on("message", async (msg) => {
 				cityName = msg.text;
-				getWeather()
+				await fetch(
+					`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
+					{ method: "GET" }
+				)
+					.then((response) => response.json())
 					.then((data) => {
 						coords = data.coord;
 						if (!data) {
-							bot.sendMessage(
+							return bot.sendMessage(
 								chatId,
 								"Ошибка при получении данных"
 							);
@@ -139,7 +135,7 @@ const start = () => {
 		}
 		if (text === "Получите IQ AIR") {
 			if (!coords) {
-				bot.sendMessage(
+				return bot.sendMessage(
 					chatId,
 					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 				);
@@ -152,7 +148,7 @@ const start = () => {
 					.then((response1) => response1.json())
 					.then((data1) => {
 						if (!data1) {
-							bot.sendMessage(
+							return bot.sendMessage(
 								chatId,
 								"Ошибка при получении данных"
 							);
