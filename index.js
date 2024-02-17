@@ -141,13 +141,7 @@ const start = () => {
 				chatId,
 				"Отправьте мне текущее местоположение. Отправив местоположение, вы сможете точно увидеть результат"
 			);
-			const showAirPollution = (data) => {
-				`
-				🌬️ Air IQ:  ${data.data.aqi}\n📈 Статус: ${air_pollution_level(
-					data.data.aqi
-				)} \n📊 PM2.5: ${data.data.iaqi.pm25.v} мкг/м3
-			`;
-			};
+
 			// bot.once("message", async (msg) => {
 			// 	cityName = msg.text;
 			// 	try {
@@ -186,9 +180,17 @@ const start = () => {
 							"Ошибка при получении данных"
 						);
 					}
-					return bot.sendMessage(chatId, showAirPollution(data), {
-						parse_mode: "Markdown",
-					});
+					return bot.sendMessage(
+						chatId,
+						`
+					🌬️ Air IQ:  ${data.data.aqi}\n📈 Статус: ${air_pollution_level(
+							data.data.aqi
+						)} \n📊 PM2.5: ${data.data.iaqi.pm25.v} мкг/м3
+				`,
+						{
+							parse_mode: "Markdown",
+						}
+					);
 				} catch (error) {
 					console.error("Error fetching weather:", error.message);
 					return bot.sendMessage(
