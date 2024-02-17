@@ -134,29 +134,31 @@ const start = () => {
 			});
 		}
 		if (text === "Получите IQ AIR") {
-			console.log(data);
 			if (!coords) {
 				bot.sendMessage(
 					chatId,
 					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 				);
 			}
-			if (!data) {
-				bot.sendMessage(chatId, "Ошибка при получении данных");
-			}
 			bot.on("location", async (location) => {
 				await fetch(
 					`https://api.waqi.info/feed/geo:${location.location.latitude};
-						${location.location.longitude}/?token=${iq_air_token}`
+					${location.location.longitude}/?token=${iq_air_token}`
 				)
-					.then((response) => response.json())
-					.then((data) => {
+					.then((response1) => response1.json())
+					.then((data1) => {
+						if (!data1) {
+							bot.sendMessage(
+								chatId,
+								"Ошибка при получении данных"
+							);
+						}
 						bot.sendMessage(
 							chatId,
 							`
-						    🌬️ Air IQ:  ${data.data.aqi}\n📈 Статус: ${air_pollution_level(
-								data.data.aqi
-							)} \n📊 PM2.5: ${data.data.iaqi.pm25.v} мкг/м3
+						    🌬️ Air IQ:  ${data1.data.aqi}\n📈 Статус: ${air_pollution_level(
+								data1.data.aqi
+							)} \n📊 PM2.5: ${data1.data.iaqi.pm25.v} мкг/м3
 						`,
 							{ parse_mode: "Markdown" }
 						);
