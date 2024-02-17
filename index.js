@@ -97,7 +97,7 @@ const start = () => {
 			bot.sendMessage(chatId, "Напишите город:");
 			bot.on("message", async (msg) => {
 				cityName = msg.text;
-				await fetch(
+				return await fetch(
 					`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
 					{ method: "GET" }
 				)
@@ -141,7 +141,7 @@ const start = () => {
 				);
 			}
 			bot.on("location", async (location) => {
-				await fetch(
+				return await fetch(
 					`https://api.waqi.info/feed/geo:${location.location.latitude};
 					${location.location.longitude}/?token=${iq_air_token}`
 				)
