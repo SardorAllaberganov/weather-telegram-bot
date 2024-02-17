@@ -100,36 +100,37 @@ const start = () => {
 				await fetch(
 					`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
 					{ method: "GET" }
-				).then((response) =>
-					response
-						.json()
-						.then((data) => {
-							coords = data.coord;
+				)
+					.then((response) => response.json())
+					.then((data) => {
+						coords = data.coord;
+						if (!data) {
 							bot.sendMessage(
 								chatId,
-								`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
-									data.weather[0].description
-								}\n🌄 Иконка: ${
-									icons[data.weather[0].main.toLowerCase()]
-								}\n🌡️ Температура: ${
-									data.main.temp
-								}°C\n🤒 Ощущается как: ${
-									data.main.feels_like
-								}°C\n⏱ Давления: ${
-									data.main.pressure
-								} hPa \n🫧 Влажность: ${
-									data.main.humidity
-								} % \n👁️Видимость: ${data.visibility} m `
+								"Ошибка при получении данных"
 							);
-						})
-						.catch((error) => {
-							console.error(
-								"Error fetching weather:",
-								error.message
-							);
-							throw error;
-						})
-				);
+						}
+						bot.sendMessage(
+							chatId,
+							`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
+								data.weather[0].description
+							}\n🌄 Иконка: ${
+								icons[data.weather[0].main.toLowerCase()]
+							}\n🌡️ Температура: ${
+								data.main.temp
+							}°C\n🤒 Ощущается как: ${
+								data.main.feels_like
+							}°C\n⏱ Давления: ${
+								data.main.pressure
+							} hPa \n🫧 Влажность: ${
+								data.main.humidity
+							} % \n👁️Видимость: ${data.visibility} m `
+						);
+					})
+					.catch((error) => {
+						console.error("Error fetching weather:", error.message);
+						throw error;
+					});
 			});
 		}
 		if (text === "Получите IQ AIR") {
