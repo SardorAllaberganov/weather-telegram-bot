@@ -95,7 +95,7 @@ const start = () => {
 		}
 		if (text === "Текущая погода") {
 			bot.sendMessage(chatId, "Напишите город:");
-			bot.on("message", async (msg) => {
+			bot.once("message", async (msg) => {
 				cityName = msg.text;
 				return await fetch(
 					`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${openweather_token}&units=metric&lang=ru`,
@@ -140,7 +140,7 @@ const start = () => {
 					"Отправьте мне текущее местоположение или название города. Отправив местоположение, вы сможете точно увидеть результат"
 				);
 			}
-			bot.on("location", async (location) => {
+			bot.once("location", async (location) => {
 				return await fetch(
 					`https://api.waqi.info/feed/geo:${location.location.latitude};
 					${location.location.longitude}/?token=${iq_air_token}`
