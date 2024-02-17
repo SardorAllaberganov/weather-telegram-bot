@@ -113,9 +113,9 @@ const start = () => {
 						return bot.sendMessage(
 							chatId,
 							`🌆 Текуший город: ${data.name}\n🌤 Погода: ${
-								data?.weather[0].description
+								data?.weather[0]?.description
 							}\n🌄 Иконка: ${
-								icons[data?.weather[0].main.toLowerCase()]
+								icons[data?.weather[0]?.main.toLowerCase()]
 							}\n🌡️ Температура: ${
 								data.main.temp
 							}°C\n🤒 Ощущается как: ${
