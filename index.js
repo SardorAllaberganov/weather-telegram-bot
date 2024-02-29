@@ -202,8 +202,12 @@ const start = () => {
 		}
 	});
 };
+// bot.setWebHook(
+// 	`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/${tg_token}`
+// );
+
 bot.setWebHook(
-	`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/${tg_token}`
+	`https://weather-telegram-bot-tr1u.onrender.com/${tg_token}`
 );
 
 start();
