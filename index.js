@@ -206,7 +206,7 @@ const start = () => {
 // 	`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/${tg_token}`
 // );
 bot.setWebHook(
-	`https://weather-tg-bot.vercel.app/${tg_token}`
+	`https://weather-telegram-bot.netlify.app//${tg_token}`
 );
 
 start();
