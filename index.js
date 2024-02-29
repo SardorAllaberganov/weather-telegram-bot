@@ -72,7 +72,7 @@ app.get("/", (req, res) => {
 	res.status(200).json({ message: "Telegram Bot is running!" });
 });
 
-app.post(`/${tg_token}`, (req, res) => {
+app.post(`/bot${tg_token}`, (req, res) => {
 	const { body } = req;
 	console.log(body);
 	bot.processUpdate(body);
@@ -205,9 +205,13 @@ const start = () => {
 // bot.setWebHook(
 // 	`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/${tg_token}`
 // );
-bot.setWebHook(
-	`https://weather-tg-bot.vercel.app/${tg_token}`
-);
+bot.setWebHook(`https://weather-tg-bot.vercel.app/${tg_token}`).then(() => {
+	console
+		.log(`Webhook set to: https://weather-tg-bot.vercel.app/${tg_token}`)
+		.catch((error) => {
+			console.error("Error setting webhook:", error.message);
+		});
+});
 
 start();
 
