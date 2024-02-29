@@ -205,7 +205,7 @@ const start = () => {
 // bot.setWebHook(
 // 	`https://weather-telegram-app-b31d5d394ce0.herokuapp.com/${tg_token}`
 // );
-bot.setWebHook(`https://weather-tg-bot.vercel.app/${tg_token}`).then(() => {
+bot.setWebHook(`https://weather-tg-bot.vercel.app/bot${tg_token}`).then(() => {
 	console
 		.log(`Webhook set to: https://weather-tg-bot.vercel.app/${tg_token}`)
 		.catch((error) => {
