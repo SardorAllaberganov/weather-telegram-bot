@@ -54,13 +54,13 @@ const options = {
 const air_pollution_level = (aqi) => {
 	if (aqi <= 50) {
 		return "🟢 Хороший";
-	} else if (aqi > 51 && aqi < 100) {
+	} else if (aqi >= 51 && aqi <= 100) {
 		return "🟡 Умеренный";
-	} else if (aqi > 101 && aqi < 150) {
+	} else if (aqi >= 101 && aqi <= 150) {
 		return "🟠 Вредно для чувствительных групп";
-	} else if (aqi > 151 && aqi < 200) {
+	} else if (aqi >= 151 && aqi <= 200) {
 		return "🔴 Нездоровый";
-	} else if (aqi > 201 && aqi < 300) {
+	} else if (aqi >= 201 && aqi <= 300) {
 		return "🟣 Очень вредно для здоровья";
 	} else {
 		return "🟤 Опасный";
